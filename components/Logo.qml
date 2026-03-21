@@ -3,15 +3,14 @@ import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
 Item {
-    property alias color: logoRectId.color
-
-    id: logoRootid
+    id: logoRootId
     width: 199
     height: 85
 
     Rectangle {
         id: logoRectId
         anchors.fill: parent
+        color: "transparent"
 
         RowLayout {
             anchors.centerIn: parent
@@ -24,6 +23,7 @@ Item {
                 radius: 8
 
                 color: "#fb7185"
+
                 Text {
                     anchors.centerIn: parent
                     text: "N"

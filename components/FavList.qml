@@ -97,7 +97,7 @@ Item {
                             cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                             onClicked: {
-                                rootId.currentFavId = favid;
+                                rootId.currentFavId = favid
                                 rootId.favChoice(favid)
                             }
                         }

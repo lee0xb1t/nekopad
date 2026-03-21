@@ -7,28 +7,26 @@ Window {
     width: 800
     height: 580
     visible: true
-    color: "#fff"
+    color: "#fafafa"
 
     Rectangle {
         width: 200
         height: 520
-        border.color: "black"
+        border.color: "#e4e4e7"
         border.width: 1
+        color: "#fafafa"
 
         ColumnLayout {
             width: 200
             spacing: 0
 
             Logo {
-                color: "#fafafa"
             }
 
             Fav {
-                color: "#fafafa"
             }
 
             User {
-                color: "#fafafa"
             }
         }
     }
