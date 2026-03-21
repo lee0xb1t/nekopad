@@ -19,6 +19,10 @@ qt_add_qml_module(appnicopad
     URI nicopad
     QML_FILES
         Main.qml
+        components/Logo.qml
+        components/Fav.qml
+        components/FavList.qml
+        components/User.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
