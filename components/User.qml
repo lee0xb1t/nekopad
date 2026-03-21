@@ -9,7 +9,10 @@ Item {
     property string name
     property string avatar
 
-    signal userClicked(string uid)
+    property bool isLogin: false
+    property string defaultAvatar: "https://i0.hdslb.com/bfs/face/member/noface.jpg"
+
+    signal userClicked(bool isLogin, string uid)
 
     width: 199
     height: 70
@@ -37,7 +40,7 @@ Item {
                     height: layoutId.implicitHeight
                     color: parent.color
                     anchors.fill: parent
-                    anchors.leftMargin: 15
+                    anchors.leftMargin: 20
 
                     RowLayout {
                         id: layoutId
@@ -52,7 +55,7 @@ Item {
                             Image {
                                 id: avatarImgId
                                 anchors.fill: parent
-                                source: "https://i0.hdslb.com/bfs/face/eebf29b2c406fb8c0439039c7437c95681c60c02.jpg"
+                                source: isLogin ? avatar : defaultAvatar
 
                                 layer.enabled: true
                                 layer.effect: OpacityMask {
@@ -74,7 +77,7 @@ Item {
                                 hoverEnabled: true
                                 cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
                                 onClicked: {
-                                    userRootId.userClicked(userRootId.uid)
+                                    userRootId.userClicked(userRootId.isLogin, userRootId.uid)
                                 }
                             }
                         }
@@ -87,7 +90,7 @@ Item {
                             Text {
                                 anchors.centerIn: parent
                                 id: nameTextId
-                                text: "push_ebp"
+                                text: isLogin ? name : "Login"
                             }
 
                             MouseArea {
@@ -95,7 +98,7 @@ Item {
                                 hoverEnabled: true
                                 cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
                                 onClicked: {
-                                    userRootId.userClicked(userRootId.uid)
+                                    userRootId.userClicked(userRootId.isLogin, userRootId.uid)
                                 }
                             }
                         }
