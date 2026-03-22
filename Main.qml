@@ -9,24 +9,55 @@ Window {
     visible: true
     color: "#fafafa"
 
-    Rectangle {
-        width: 200
-        height: 520
-        border.color: "#e4e4e7"
-        border.width: 1
-        color: "#fafafa"
+    RowLayout {
+        spacing: 0
 
-        ColumnLayout {
+        Rectangle {
             width: 200
-            spacing: 0
+            height: 520
+            color: "#fafafa"
+            border.color: "#e4e4e7"
+            border.width: 1
 
-            Logo {
+            Rectangle {
+                width: parent.width-1
+                height: parent.height
+                color: "#fafafa"
+
+                ColumnLayout {
+                    anchors.fill: parent
+                    spacing: 0
+
+                    Logo {
+                    }
+
+                    Fav {
+                    }
+
+                    User {
+                    }
+                }
             }
+        }
 
-            Fav {
-            }
+        Rectangle {
+            width: 600
+            height: 520
+            color: "#fff"
 
-            User {
+            ColumnLayout {
+                anchors.fill: parent
+                spacing: 0
+
+                Head {
+                    width: parent.width
+                    height: 50
+                }
+
+                VList {
+                    width: parent.width
+                    height: 470
+                }
             }
         }
     }

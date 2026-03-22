@@ -1,5 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts
+import QtQuick.Controls
 
 Item {
     id: rootId
@@ -37,6 +38,23 @@ Item {
                     width: parent.width
                     height: parent.height
                     clip: true
+                    spacing: 2
+                    boundsBehavior: Flickable.StopAtBounds
+                    // ScrollBar.vertical: ScrollBar {
+                    //     policy: ScrollBar.AsNeeded // 仅在需要时显示
+                    //     active: true // 始终显示或在交互时显示
+                    //     background: Rectangle {
+                    //         implicitWidth: 4
+                    //         height: parent.height
+                    //     }
+                    //     contentItem: Rectangle {
+                    //         color: "pink"
+                    //     }
+                    //     Rectangle {
+                    //         anchors.fill: parent
+                    //         color: "#fafafa"
+                    //     }
+                    // }
 
                     model: ListModel {
                         ListElement {
@@ -59,6 +77,30 @@ Item {
                             favid: "5"
                             title: "First Favorate Music | Top 100 Hachimi Music"
                         }
+                        ListElement {
+                            favid: "6"
+                            title: "First Favorate Music | Top 100 Hachimi Music"
+                        }
+                        ListElement {
+                            favid: "7"
+                            title: "First Favorate Music | Top 100 Hachimi Music"
+                        }
+                        ListElement {
+                            favid: "8"
+                            title: "First Favorate Music | Top 100 Hachimi Music"
+                        }
+                        ListElement {
+                            favid: "9"
+                            title: "First Favorate Music | Top 100 Hachimi Music"
+                        }
+                        ListElement {
+                            favid: "11"
+                            title: "First Favorate Music | Top 100 Hachimi Music"
+                        }
+                        ListElement {
+                            favid: "12"
+                            title: "First Favorate Music | Top 100 Hachimi Music"
+                        }
                     }
 
                     delegate: Rectangle {
@@ -67,7 +109,7 @@ Item {
 
                         id: favItemId
                         width: 159
-                        height: 32
+                        height: 33
                         anchors.topMargin: 18
                         anchors.bottomMargin: 18
                         anchors.leftMargin: 15
