@@ -13,6 +13,7 @@ class LoginManager : public QObject
     Q_PROPERTY(QString qrcodeUrl READ qrcodeUrl WRITE setQrcodeUrl NOTIFY qrcodeUrlChanged FINAL)
     Q_PROPERTY(QString statusText READ statusText WRITE setStatusText NOTIFY statusTextChanged FINAL)
     Q_PROPERTY(bool isLoggingIn READ isLoggingIn WRITE setIsLoggingIn NOTIFY isLoggingInChanged FINAL)
+    Q_PROPERTY(QUrl qrcodeImg READ qrcodeImg WRITE setQrcodeImg NOTIFY qrcodeImgChanged FINAL)
 public:
     enum LoginAction {
         GetCaptcha,
@@ -34,6 +35,9 @@ public:
     QString statusText() const;
     void setStatusText(const QString &newStatusText);
 
+    QUrl qrcodeImg() const;
+    void setQrcodeImg(const QUrl &newQrcodeImg);
+
 public slots:
     void onNetworkFinished(QNetworkReply *reply);
     void onPollTimeout();
@@ -48,6 +52,8 @@ signals:
     void isLoggingInChanged();
 
     void statusTextChanged();
+
+    void qrcodeImgChanged();
 
 private:
     void get_captcha();
@@ -64,6 +70,7 @@ private:
     QString m_qrcodeUrl;
     bool m_isLoggingIn;
     QString m_statusText;
+    QUrl m_qrcodeImg;
 };
 
 #endif // LOGINMGR_H

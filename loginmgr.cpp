@@ -1,6 +1,8 @@
 #include "loginmgr.h"
 #include "cookiemgr.h"
+#include "qrcodegen.hpp"
 #include <QtNetwork>
+#include <QImage>
 
 LoginManager::LoginManager(QObject *parent)
     : QObject{parent}
@@ -20,6 +22,7 @@ void LoginManager::startLogin() {
     setIsLoggingIn(true);
     setStatusText("正在登录");
     setQrcodeUrl("");
+    setQrcodeImg(QUrl(""));
 
     get_captcha();
 
@@ -147,6 +150,32 @@ void LoginManager::handlePoll(QJsonObject jsonObj) {
 void LoginManager::onQRCodeReceived(const QString& url, const QString& qrcodekey) {
     setQrcodeUrl(url);
     setStatusText("等待扫码");
+
+    // generate qrcode image
+    int border = 4;
+    const qrcodegen::QrCode qr0 = qrcodegen::QrCode::encodeText(url.toStdString().c_str(), qrcodegen::QrCode::Ecc::MEDIUM);
+    const int s = qr0.getSize() > 0 ? qr0.getSize() : 1;//大小由data而定
+    QImage image(s, s, QImage::Format_RGB888);//局部变量，匿名对象扶正，用匿名对象去初始化，而不是赋值（=）。
+    image.fill(QColor(Qt::white).rgb());
+    for (int y = -border; y < s+border; y++) {
+        for (int x = -border; x < s+border; x++) {
+            const int color = qr0.getModule(x, y); // 0 for white, 1 for black
+            if (0 != color) {
+                image.setPixelColor(x, y, QColor(Qt::black));
+            }
+        }
+    }
+
+    QByteArray byteArray;
+    QBuffer buffer(&byteArray);
+    buffer.open(QIODevice::WriteOnly);
+    int quality = -1; // (default) compressed data, slower
+    image.save(&buffer, "png", quality);
+    QString base64 = QString::fromUtf8(byteArray.toBase64());
+    buffer.close();
+
+    setQrcodeImg(QUrl(QString("data:image/png;base64,") + base64));
+
     start_poll(qrcodekey);
 }
 
@@ -187,4 +216,17 @@ void LoginManager::setStatusText(const QString &newStatusText)
         return;
     m_statusText = newStatusText;
     emit statusTextChanged();
+}
+
+QUrl LoginManager::qrcodeImg() const
+{
+    return m_qrcodeImg;
+}
+
+void LoginManager::setQrcodeImg(const QUrl &newQrcodeImg)
+{
+    if (m_qrcodeImg == newQrcodeImg)
+        return;
+    m_qrcodeImg = newQrcodeImg;
+    emit qrcodeImgChanged();
 }

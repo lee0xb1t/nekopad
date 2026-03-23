@@ -36,9 +36,18 @@ Window {
                     }
 
                     User {
+                        id: user
+                        // uid: userMgr.uid
+                        // name: userMgr.uname
+                        // avatar: userMgr.avatarUrl
+                        // isLogin: userMgr.isLogin
+
                         onUserClicked: function(isLogin, uid) {
                             if (!isLogin) {
+                                loginMgr.startLogin()
                                 dialog.open()
+                            } else {
+
                             }
                         }
                     }
@@ -73,6 +82,7 @@ Window {
         anchors.centerIn: parent
         title: "扫描二维码"
         modal: true
+        height: 150*2
 
         standardButtons: Dialog.Ok | Dialog.Cancel
 
@@ -80,7 +90,38 @@ Window {
         onRejected: console.log("Cancel clicked")
 
         Image {
+            width: 150
+            height: 150
+            fillMode: Image.Stretch
+            source: loginMgr.qrcodeImg
+        }
+    }
 
+    Connections {
+        target: loginMgr
+        function onIsLoggingInChanged() {
+            console.log("loginMgr.isLoggingIn:", loginMgr.isLoggingIn)
+        }
+        function onStatusTextChanged() {
+            console.log("loginMgr.statusText:", loginMgr.statusText)
+        }
+        function onLoginSuccess(refresh_token) {
+            console.log("refresh_token:", refresh_token)
+            userMgr.fetchUserData();
+        }
+        function onQrcodeInvalid() {
+            console.log("onQrcodeInvalid")
+        }
+    }
+
+    Connections {
+        target: userMgr
+        function onUserDataLoaded() {
+            user.uid = userMgr.uid
+            user.name = userMgr.uname
+            user.avatar = userMgr.avatarUrl
+            user.isLogin = userMgr.isLogin
+            dialog.close()
         }
     }
 }

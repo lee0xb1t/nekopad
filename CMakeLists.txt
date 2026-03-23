@@ -26,10 +26,11 @@ qt_add_qml_module(appnicopad
         components/Head.qml
         components/VList.qml
         components/VItem.qml
-        SOURCES appmgr.h appmgr.cpp
-        SOURCES loginmgr.h loginmgr.cpp
-        SOURCES cookiemgr.h cookiemgr.cpp
-        SOURCES qrcodegen.hpp qrcodegen.cpp
+    SOURCES appmgr.h appmgr.cpp
+    SOURCES loginmgr.h loginmgr.cpp
+    SOURCES cookiemgr.h cookiemgr.cpp
+    SOURCES qrcodegen.hpp qrcodegen.cpp
+    SOURCES usermgr.h usermgr.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
