@@ -121,6 +121,8 @@ Window {
             user.name = userMgr.uname
             user.avatar = userMgr.avatarUrl
             user.isLogin = userMgr.isLogin
+            user.coins = userMgr.coins
+            user.isVip = userMgr.vipStatus
             dialog.close()
         }
     }

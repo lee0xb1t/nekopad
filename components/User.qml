@@ -8,6 +8,8 @@ Item {
     property string uid
     property string name
     property string avatar
+    property int coins
+    property bool isVip
 
     property bool isLogin: false
     property string defaultAvatar: "https://i0.hdslb.com/bfs/face/member/noface.jpg"
