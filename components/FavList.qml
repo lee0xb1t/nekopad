@@ -4,7 +4,7 @@ import QtQuick.Controls
 
 Item {
     id: rootId
-
+    property var favList
     property string currentFavId: ""
     signal favChoice(string id)
 
@@ -56,55 +56,10 @@ Item {
                     //     }
                     // }
 
-                    model: ListModel {
-                        ListElement {
-                            favid: "1"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "2"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "3"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "4"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "5"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "6"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "7"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "8"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "9"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "11"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                        ListElement {
-                            favid: "12"
-                            title: "First Favorate Music | Top 100 Hachimi Music"
-                        }
-                    }
+                    model: favList
 
                     delegate: Rectangle {
-                        required property string favid
+                        required property string favId
                         required property string title
 
                         id: favItemId
@@ -115,8 +70,8 @@ Item {
                         anchors.leftMargin: 15
                         anchors.rightMargin: 15
 
-                        border.color: rootId.currentFavId === favid ? "#e4e4e7" : ""
-                        border.width: rootId.currentFavId === favid ? 1.3 : 0
+                        border.color: rootId.currentFavId === favId ? "#e4e4e7" : ""
+                        border.width: rootId.currentFavId === favId ? 1.3 : 0
                         radius: 8
 
                         color: favMAId.containsMouse ? "#efeff1" : "#fafafa"
@@ -129,7 +84,7 @@ Item {
 
                             text: title
                             font.pixelSize: 12
-                            color: rootId.currentFavId === favid ? "#fb7185" : (favMAId.containsMouse ? "#18181b" : "#71717a")
+                            color: rootId.currentFavId === favId ? "#fb7185" : (favMAId.containsMouse ? "#18181b" : "#71717a")
                         }
 
                         MouseArea {
@@ -139,8 +94,8 @@ Item {
                             cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                             onClicked: {
-                                rootId.currentFavId = favid
-                                rootId.favChoice(favid)
+                                rootId.currentFavId = favId
+                                rootId.favChoice(favId)
                             }
                         }
                     }
@@ -149,4 +104,51 @@ Item {
         }
     }
 
+    ListModel {
+        id: listModel
+        ListElement {
+            favid: "1"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "2"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "3"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "4"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "5"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "6"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "7"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "8"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "9"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "11"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+        ListElement {
+            favid: "12"
+            title: "First Favorate Music | Top 100 Hachimi Music"
+        }
+    }
 }

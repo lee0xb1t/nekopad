@@ -71,7 +71,7 @@ void UserManager::onUserDataReceived(const QJsonObject& jsonData) {
         setCurrentLevel(levelInfoObj["current_level"].toInt());
     }
 
-    setUid(jsonData["mid"].toString());
+    setUid(QString::number(jsonData["mid"].toInteger()));
     setUname(jsonData["uname"].toString());
     setVipStatus(jsonData["vipStatus"].toBool());
     setCoins(jsonData["money"].toInt());

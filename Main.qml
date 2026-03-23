@@ -33,6 +33,7 @@ Window {
                     }
 
                     Fav {
+                        favList: favMgr.items
                     }
 
                     User {
@@ -117,6 +118,7 @@ Window {
     Connections {
         target: userMgr
         function onUserDataLoaded() {
+            favMgr.fetchFavList(userMgr.uid);
             user.uid = userMgr.uid
             user.name = userMgr.uname
             user.avatar = userMgr.avatarUrl
@@ -124,6 +126,19 @@ Window {
             user.coins = userMgr.coins
             user.isVip = userMgr.vipStatus
             dialog.close()
+        }
+    }
+
+    Connections {
+        target: favMgr
+        function onFavListLoaded() {
+            console.log("onFavListLoaded")
+            for (let i = 0; i < favMgr.items.length; i++) {
+                console.log(favMgr.items[i].title)
+            }
+        }
+        function onFavMgrError(msg) {
+            console.log("onFavMgrError:", msg)
         }
     }
 }
