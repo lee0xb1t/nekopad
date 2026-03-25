@@ -1,15 +1,14 @@
 #include "videolistmodel.h"
-#include "cookiemgr.h"
+#include "nammgr.h"
+#include "requesttag.h"
 
 VideoListModel::VideoListModel(QObject *parent)
     : QAbstractListModel(parent)
-    , m_nam(new QNetworkAccessManager(this))
+    , m_nam(NamManager::instance()->nam())
     , m_pageNum(1)
     , m_pageSize(20)
     , m_hasMore(false)
 {
-    m_nam->setCookieJar(CookieManager::instance()->cookieJar());
-
     connect(m_nam, &QNetworkAccessManager::finished, this, &VideoListModel::onNetworkFinished);
 }
 
@@ -70,6 +69,14 @@ void VideoListModel::setPageSize(int newPageSize)
 void VideoListModel::onNetworkFinished(QNetworkReply *reply) {
     if (!reply) return;
 
+    QVariant maker = reply->request().attribute(QNetworkRequest::User);
+    if (!maker.isValid()) {
+        return;
+    }
+    if (maker != QVariant::fromValue(RequestTag::videoList_FetchVideoList)) {
+        return;
+    }
+
     if (reply->error() == QNetworkReply::NoError) {
         QVariant maker = reply->request().attribute(QNetworkRequest::User);
         if (maker.isValid()) {
@@ -84,7 +91,7 @@ void VideoListModel::onNetworkFinished(QNetworkReply *reply) {
                 return;
             }
 
-            if (maker.isValid() && maker == VideoListModel::FetchVideoList) {
+            if (maker.isValid() && maker == QVariant::fromValue(RequestTag::videoList_FetchVideoList)) {
                 if (doc.isObject()) {
                     QJsonObject jsonObj = doc.object();
                     QJsonValue codeVal = jsonObj["code"];
@@ -121,7 +128,7 @@ void VideoListModel::fetchVideoList() {
     url.setQuery(query);
 
     QNetworkRequest request(url);
-    request.setAttribute(QNetworkRequest::User, VideoListModel::FetchVideoList);
+    request.setAttribute(QNetworkRequest::User, QVariant::fromValue(RequestTag::videoList_FetchVideoList));
     m_nam->get(request);
 }
 

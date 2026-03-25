@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import nekopad
 import "components"
 
 Window {
@@ -38,7 +39,6 @@ Window {
                         onFavClicked: function(favid) {
                             console.log("onFavClicked:", favid)
                             videoListModelId.favId = favid
-                            // videoListModelId.fetchVideoList()
                         }
                     }
 
@@ -80,6 +80,9 @@ Window {
                     width: parent.width
                     height: 470
                     videoListModel: videoListModelId
+
+                    imgKey: userMgr.imgKey
+                    subKey: userMgr.subKey
                 }
             }
         }

@@ -1,20 +1,19 @@
 #include "loginmgr.h"
-#include "cookiemgr.h"
 #include "qrcodegen.hpp"
+#include "nammgr.h"
+#include "requesttag.h"
+
 #include <QtNetwork>
 #include <QImage>
 
 LoginManager::LoginManager(QObject *parent)
     : QObject{parent}
-    , m_nam(new QNetworkAccessManager(this))
+    , m_nam(NamManager::instance()->nam())
     , m_timer(new QTimer(this))
     , m_timerMs(800)
 {
-    m_nam->setCookieJar(CookieManager::instance()->cookieJar());
-
     connect(m_nam, &QNetworkAccessManager::finished, this, &LoginManager::onNetworkFinished);
     connect(m_timer, &QTimer::timeout, this, &LoginManager::onPollTimeout);
-
 }
 
 void LoginManager::startLogin() {
@@ -34,7 +33,7 @@ void LoginManager::cancelLogin() {
 
 void LoginManager::get_captcha() {
     QNetworkRequest request(QUrl("https://passport.bilibili.com/x/passport-login/web/qrcode/generate"));
-    request.setAttribute(QNetworkRequest::User, LoginManager::GetCaptcha);
+    request.setAttribute(QNetworkRequest::User, QVariant::fromValue(RequestTag::login_GetCaptcha));
     m_nam->get(request);
 }
 
@@ -46,7 +45,7 @@ void LoginManager::poll(QString qrcodekey) {
     url.setQuery(query);
 
     QNetworkRequest request(url);
-    request.setAttribute(QNetworkRequest::User, LoginManager::Poll);
+    request.setAttribute(QNetworkRequest::User, QVariant::fromValue(RequestTag::login_Poll));
     m_nam->get(request);
 }
 
@@ -58,6 +57,16 @@ void LoginManager::start_poll(QString qrcodekey) {
 
 void LoginManager::onNetworkFinished(QNetworkReply *reply) {
     if (!reply) return;
+
+    QVariant maker = reply->request().attribute(QNetworkRequest::User);
+    if (!maker.isValid()) {
+        return;
+    }
+    if (maker != QVariant::fromValue(RequestTag::login_GetCaptcha)
+        && maker != QVariant::fromValue(RequestTag::login_Poll))
+    {
+        return;
+    }
 
     if (reply->error() == QNetworkReply::NoError) {
         QVariant maker = reply->request().attribute(QNetworkRequest::User);
@@ -73,7 +82,7 @@ void LoginManager::onNetworkFinished(QNetworkReply *reply) {
                 return;
             }
 
-            if (maker.isValid() && maker == LoginManager::GetCaptcha) {
+            if (maker.isValid() && maker == QVariant::fromValue(RequestTag::login_GetCaptcha)) {
                 if (doc.isObject()) {
                     QJsonObject jsonObj = doc.object();
                     QJsonValue codeVal = jsonObj["code"];
@@ -94,7 +103,7 @@ void LoginManager::onNetworkFinished(QNetworkReply *reply) {
                         }
                     }
                 }
-            } else if (maker == LoginManager::Poll) {
+            } else if (maker == QVariant::fromValue(RequestTag::login_Poll)) {
                 if (doc.isObject()) {
                     QJsonObject jsonObj = doc.object();
                     handlePoll(jsonObj);

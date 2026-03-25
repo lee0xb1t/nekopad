@@ -15,11 +15,6 @@ class LoginManager : public QObject
     Q_PROPERTY(bool isLoggingIn READ isLoggingIn WRITE setIsLoggingIn NOTIFY isLoggingInChanged FINAL)
     Q_PROPERTY(QUrl qrcodeImg READ qrcodeImg WRITE setQrcodeImg NOTIFY qrcodeImgChanged FINAL)
 public:
-    enum LoginAction {
-        GetCaptcha,
-        Poll,
-    };
-    Q_ENUM(LoginAction)
 
     explicit LoginManager(QObject *parent = nullptr);
 

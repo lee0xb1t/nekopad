@@ -5,6 +5,9 @@ Item {
     property string currentVid
     property var videoListModel
 
+    property string imgKey
+    property string subKey
+
     id: rootId
 
     Rectangle {
@@ -47,6 +50,8 @@ Item {
                         antialiasing: true
 
                         currentVid: rootId.currentVid
+                        imgKey: rootId.imgKey
+                        subKey: rootId.subKey
 
                         onChoiceVid: function (v) {
                             console.log(v)

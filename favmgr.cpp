@@ -1,11 +1,11 @@
 #include "favmgr.h"
-#include "cookiemgr.h"
+#include "nammgr.h"
+#include "requesttag.h"
 
 FavManager::FavManager(QObject *parent)
     : QObject{parent}
-    , m_nam(new QNetworkAccessManager(this))
+    , m_nam(NamManager::instance()->nam())
 {
-    m_nam->setCookieJar(CookieManager::instance()->cookieJar());
     connect(m_nam, &QNetworkAccessManager::finished, this, &FavManager::onNetworkFinished);
 }
 
@@ -19,12 +19,21 @@ void FavManager::fetchFavList(QString uid) {
     url.setQuery(query);
 
     QNetworkRequest request(url);
-    request.setAttribute(QNetworkRequest::User, FavManager::FetchFavList);
+    request.setAttribute(QNetworkRequest::User, QVariant::fromValue(RequestTag::fav_FetchFavList));
     m_nam->get(request);
 }
 
 void FavManager::onNetworkFinished(QNetworkReply *reply) {
     if (!reply) return;
+
+    QVariant maker = reply->request().attribute(QNetworkRequest::User);
+    if (!maker.isValid()) {
+        return;
+    }
+    if (maker != QVariant::fromValue(RequestTag::fav_FetchFavList)) {
+        return;
+    }
+
 
     if (reply->error() == QNetworkReply::NoError) {
         QVariant maker = reply->request().attribute(QNetworkRequest::User);
@@ -40,7 +49,7 @@ void FavManager::onNetworkFinished(QNetworkReply *reply) {
                 return;
             }
 
-            if (maker.isValid() && maker == FavManager::FetchFavList) {
+            if (maker.isValid() && maker == QVariant::fromValue(RequestTag::fav_FetchFavList)) {
                 if (doc.isObject()) {
                     QJsonObject jsonObj = doc.object();
                     QJsonValue codeVal = jsonObj["code"];
@@ -62,7 +71,6 @@ void FavManager::onNetworkFinished(QNetworkReply *reply) {
                 }
             }
         }
-
     } else {
         emit favMgrError(reply->errorString());
     }

@@ -7,6 +7,9 @@ Item {
 
     required property string currentVid
 
+    property string imgKey
+    property string subKey
+
     required property int index
     required property string mediaId
     required property int type
@@ -121,9 +124,22 @@ Item {
                 hoverEnabled: true
                 cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: {
+                    videoInfoId.fetchVideoInfo()
                     choiceVid(rootId.bvid)
                 }
             }
+        }
+    }
+
+    VideoInfo {
+        id: videoInfoId
+        imgKey: rootId.imgKey
+        subKey: rootId.subKey
+        bvid: rootId.bvid
+
+        onVideoInfoLoaded: function() {
+            console.log("onVideoInfoLoaded,videoInfoId.firstCid:", videoInfoId.firstCid)
+            console.log("onVideoInfoLoaded,videoInfoId.pageCnt:", videoInfoId.pageCnt)
         }
     }
 }

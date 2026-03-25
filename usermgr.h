@@ -14,15 +14,14 @@ class UserManager : public QObject
     Q_PROPERTY(QString uname READ uname WRITE setUname NOTIFY unameChanged FINAL)
     Q_PROPERTY(bool vipStatus READ vipStatus WRITE setVipStatus NOTIFY vipStatusChanged FINAL)
     Q_PROPERTY(int coins READ coins WRITE setCoins NOTIFY coinsChanged FINAL)
+    Q_PROPERTY(QString imgKey READ imgKey WRITE setImgKey NOTIFY imgKeyChanged FINAL)
+    Q_PROPERTY(QString subKey READ subKey WRITE setSubKey NOTIFY subKeyChanged FINAL)
 public:
-    enum RequestType {
-        FetchUserData,
-    };
-    Q_ENUM(RequestType)
 
     explicit UserManager(QObject *parent = nullptr);
 
     Q_INVOKABLE void fetchUserData();
+    Q_INVOKABLE void reloadWbiKey();
 
     bool isLogin() const;
     void setIsLogin(bool newIsLogin);
@@ -45,11 +44,18 @@ public:
     int coins() const;
     void setCoins(int newCoins);
 
+    QString imgKey() const;
+    void setImgKey(const QString &newImgKey);
+
+    QString subKey() const;
+    void setSubKey(const QString &newSubKey);
+
 public slots:
     void onNetworkFinished(QNetworkReply *reply);
 
 signals:
     void userDataLoaded();
+    void wbiKeyLoaded();
     void userError(const QString& error);
 
     void isLoginChanged();
@@ -66,8 +72,13 @@ signals:
 
     void coinsChanged();
 
+    void imgKeyChanged();
+
+    void subKeyChanged();
+
 private:
     void onUserDataReceived(const QJsonObject& jsonData);
+    void onReloadWbiKey(const QJsonObject& jsonData);
 
     QNetworkAccessManager *m_nam;
     bool m_isLogin;
@@ -77,6 +88,8 @@ private:
     QString m_uname;
     bool m_vipStatus;
     int m_coins;
+    QString m_imgKey;
+    QString m_subKey;
 };
 
 #endif // USERMGR_H

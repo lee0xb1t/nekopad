@@ -1,9 +1,10 @@
 #ifndef FAVMGR_H
 #define FAVMGR_H
 
+#include "models/favitem.h"
+
 #include <QObject>
 #include <QtNetwork>
-#include "models/favitem.h"
 
 class FavManager : public QObject
 {
@@ -11,10 +12,6 @@ class FavManager : public QObject
     Q_PROPERTY(QList<FavItem*> items READ items NOTIFY itemsChanged)
     Q_PROPERTY(qsizetype count READ count NOTIFY countChanged)
 public:
-    enum RequestType {
-        FetchFavList
-    };
-    Q_ENUM(RequestType)
 
     explicit FavManager(QObject *parent = nullptr);
 
