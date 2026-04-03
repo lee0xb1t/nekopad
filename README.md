@@ -19,9 +19,12 @@ A bilibili audio player
 * Fetch video list
 * Play audio
 
+## Credits
+
+感谢[BAC Document](https://sessionhu.github.io/bilibili-API-collect/)提供的接口
+
 ## Screenshot
 
 ![screenshot](images/screenshot.png)
 
 ![screenshot](images/screenshot2.png)
-
