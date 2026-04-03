@@ -113,9 +113,11 @@ Item {
 
     function selectIndex(index) {
         let itemModel = videoListModel.items[index]
-        var delegateItem = listViewId.itemAtIndex(index)
-
         listViewId.positionViewAtIndex(index, ListView.Center)
+        if (index === 0) {
+            listViewId.positionViewAtIndex(index, ListView.Center)
+        }
+        var delegateItem = listViewId.itemAtIndex(index)
 
         delegateItem.select(itemModel.bvid)
     }
