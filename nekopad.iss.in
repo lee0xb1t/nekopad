@@ -1,4 +1,4 @@
-#define MyAppName "nekopad"
+#define MyAppName "NEKOPAD"
 #define MyAppVersion "@PROJECT_VERSION@"
 #define MyAppPublisher "lee0xb1t"
 #define MyAppExeName "appnekopad.exe"
