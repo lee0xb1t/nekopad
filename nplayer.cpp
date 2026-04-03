@@ -43,6 +43,11 @@ NPlayer::NPlayer(QObject *parent)
         p->onVlcMediaTimeChanged(p_event);
     }, this);
 
+    libvlc_event_attach(m_vlcEventManager, libvlc_MediaPlayerStopped, [](const struct libvlc_event_t *p_event, void *p_data) {
+        NPlayer *p = static_cast<NPlayer *>(p_data);
+        p->onVlcMediaPlayerStopped(p_event);
+    }, this);
+
 
     // TODO: implement timer
     // m_progressTimer.setInterval(400);
@@ -129,6 +134,11 @@ void NPlayer::onVlcMediaPlayerEndReached(const struct libvlc_event_t *p_event) {
 
 void NPlayer::onVlcMediaPlayerPaused(const struct libvlc_event_t *p_event) {
     emit videoPause();
+}
+
+
+void NPlayer::onVlcMediaPlayerStopped(const struct libvlc_event_t *p_event) {
+    emit videoStopped();
 }
 
 void NPlayer::onVlcMediaTimeChanged(const struct libvlc_event_t *p_event) {

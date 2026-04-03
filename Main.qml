@@ -177,6 +177,7 @@ Window {
                     audioVolumn: rootWinId.audioVolumn
 
                     onAutoPlay: {
+                        nplayerId.isEnd = false
                         nplayerId.play()
                     }
 
@@ -192,6 +193,7 @@ Window {
                         if (nplayerId.isPlaying()) {
                             nplayerId.pause()
                         } else {
+                            nplayerId.isEnd = false
                             nplayerId.play()
                         }
                     }
@@ -201,6 +203,7 @@ Window {
                     }
 
                     onNeedPlay: function(position) {
+                        nplayerId.isEnd = false
                         nplayerId.seek(position)
                         nplayerId.play()
                     }
@@ -315,6 +318,8 @@ Window {
 
         volumn: audioVolumn
 
+        property bool isEnd: false
+
         onMediaParsed: {
         }
 
@@ -324,12 +329,21 @@ Window {
         }
 
         onVideoEnd: {
-            playControlId.value = playControlId.endTime
-            videoListId.selectNext()
+            console.log("onVideoEnd");
+            isEnd = true
         }
 
         onVideoUpdate: function(time) {
             playControlId.value = time
+        }
+
+        onVideoStopped: function() {
+            if (isEnd) {
+                console.log("onVideoStop");
+                isEnd = false
+                playControlId.value = playControlId.endTime
+                videoListId.selectNext()
+            }
         }
     }
 

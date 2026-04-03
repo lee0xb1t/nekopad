@@ -59,6 +59,7 @@ signals:
     void videoStart();
     void videoEnd();
     void videoPause();
+    void videoStopped();
     void videoUpdate(int time);
 
     //
@@ -87,6 +88,7 @@ private:
     void onVlcMediaPlayerEndReached(const struct libvlc_event_t *p_event);
     void onVlcMediaPlayerPlaying(const struct libvlc_event_t *p_event);
     void onVlcMediaPlayerPaused(const struct libvlc_event_t *p_event);
+    void onVlcMediaPlayerStopped(const struct libvlc_event_t *p_event);
     void onVlcMediaTimeChanged(const struct libvlc_event_t *p_event);
     void onVlcMediaPositionChanged(const struct libvlc_event_t *p_event);
 
