@@ -15,7 +15,7 @@ find_package(Qt6 REQUIRED COMPONENTS Quick Network)
 qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(appnekopad
-    main.cpp
+    src/main.cpp
 )
 
 qt_add_qml_module(appnekopad
@@ -39,21 +39,21 @@ qt_add_qml_module(appnekopad
 
     SOURCES appicon.rc
 
-    SOURCES appmgr.h appmgr.cpp
-    SOURCES loginmgr.h loginmgr.cpp
-    SOURCES cookiemgr.h cookiemgr.cpp
-    SOURCES qrcodegen.hpp qrcodegen.cpp
-    SOURCES usermgr.h usermgr.cpp
-    SOURCES favmgr.h favmgr.cpp
-    SOURCES models/favitem.h models/favitem.cpp
-    SOURCES videolistmodel.h videolistmodel.cpp
-    SOURCES models/videoitem.h models/videoitem.cpp
-    SOURCES nplayer.h nplayer.cpp
-    SOURCES videoinfo.h videoinfo.cpp
-    SOURCES biliwbi.h biliwbi.cpp
-    SOURCES nammgr.h nammgr.cpp
-    SOURCES requesttag.h requesttag.cpp
-    SOURCES models/playurlinfo.h models/playurlinfo.cpp
+    SOURCES src/appmgr.h src/appmgr.cpp
+    SOURCES src/loginmgr.h src/loginmgr.cpp
+    SOURCES src/cookiemgr.h src/cookiemgr.cpp
+    SOURCES src/qrcodegen.hpp src/qrcodegen.cpp
+    SOURCES src/usermgr.h src/usermgr.cpp
+    SOURCES src/favmgr.h src/favmgr.cpp
+    SOURCES src/models/favitem.h src/models/favitem.cpp
+    SOURCES src/videolistmodel.h src/videolistmodel.cpp
+    SOURCES src/models/videoitem.h src/models/videoitem.cpp
+    SOURCES src/nplayer.h src/nplayer.cpp
+    SOURCES src/videoinfo.h src/videoinfo.cpp
+    SOURCES src/biliwbi.h src/biliwbi.cpp
+    SOURCES src/nammgr.h src/nammgr.cpp
+    SOURCES src/requesttag.h src/requesttag.cpp
+    SOURCES src/models/playurlinfo.h src/models/playurlinfo.cpp
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -69,6 +69,10 @@ set_target_properties(appnekopad PROPERTIES
 
 target_link_libraries(appnekopad
     PRIVATE Qt6::Quick Qt6::Network LibVLC::LibVLC
+)
+
+target_include_directories(appnekopad PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 
